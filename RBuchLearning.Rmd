@@ -10,50 +10,98 @@ runtime: shiny
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This R Markdown document is made interactive using Shiny. Unlike the more traditional workflow of creating static reports, you can now create documents that allow your readers to change the assumptions underlying your analysis and see the results immediately. 
+# Willkommen zum RBuchLearning !!
 
-To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
+## Inhaltangabe
 
-## Inputs and Outputs
+1.
+2. 
+3. 
 
-You can embed Shiny inputs and outputs in your document. Outputs are automatically updated whenever inputs change.  This demonstrates how a standard R plot can be made interactive by wrapping it in the Shiny `renderPlot` function. The `selectInput` and `sliderInput` functions create the input widgets used to drive the plot.
+## Karpitel 1
 
-```{r eruptions, echo=FALSE}
-inputPanel(
-  selectInput("n_breaks", label = "Number of bins:",
-              choices = c(10, 20, 35, 50), selected = 20),
-  
-  sliderInput("bw_adjust", label = "Bandwidth adjustment:",
-              min = 0.2, max = 2, value = 1, step = 0.2)
-)
+Dies ist ein R Markdown Dokument. Mit der Tastenkombination (strg + alt + i) können wir ein Codesnippet erzeugen, in dem wir dann Code ausführen können. Dazu zählen einfache Rechenoperationen wie +-*/. Mit (strg + enter) können wir einzelne Zeilen Ausführen. Das Ergebnis erscheint unter dem Codesnippet.
 
-renderPlot({
-  hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
-       xlab = "Duration (minutes)", main = "Geyser eruption duration")
-  
-  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
-  lines(dens, col = "blue")
-})
+```{r}
+1+1
+
+# Hier ein Kommentar!
+
 ```
 
-## Embedded Application
 
-It's also possible to embed an entire Shiny application within an R Markdown document using the `shinyAppDir` function. This example embeds a Shiny application located in another directory:
+## Beispiel
 
-```{r tabsets, echo=FALSE}
-shinyAppDir(
-  system.file("examples/06_tabsets", package = "shiny"),
-  options = list(
-    width = "100%", height = 550
-  )
+Hier ein Beispiel mit dem Datensatz Duncan aus dem Paket car (Fox & Weisberg. 2016). Als erste installieren wir das package und laden die Library.
+
+```{r}
+install.packages("car")
+library(car)
+```
+
+
+Nun laden wir die Daten aus dem Packet car.
+
+```{r}
+data(Duncan, package = "car") #laden der Daten
+df <- Duncan #Speichert original Daten in einem dataFrame
+head(df) # Gibt die ersten Zeilen des dataFrame aus
+```
+
+Plotten wir ein bisschen!
+
+```{r}
+boxplot(income ~ type, data = Duncan, main = "Anteil hoher Einkommen pro Berufsgruppe")
+        
+
+
+
+```
+
+
+Oder einfach nur kleine Ausgaben von Matrizen.
+
+```{r}
+aggregate(education ~ type, FUN=mean, data=Duncan)
+
+```
+
+
+```{r}
+# Korrelationsmatrix der Variablen income, education, prestige
+with(Duncan, cor(cbind(income, education, prestige)))
+```
+
+Code über mehrere Zeilen Schreiben.
+
+```{r}
+2+2*(
+  4+5
 )
 ```
 
-Note the use of the `height` parameter to determine how much vertical space the embedded application should occupy.
+Ein bisschen was an Optionen.
 
-You can also use the `shinyApp` function to define an application inline rather then in an external directory.
+```{r}
+getOption("width")
+history() #Zeigt alle Befehle an
+ls() # Zeigt aktive Enviroment an
+```
 
-In all of R code chunks above the `echo = FALSE` attribute is used. This is to prevent the R code within the chunk from rendering in the document alongside the Shiny components.
+Hier ein paar Hilfefunktionen
 
+```{r}
+?Syntax
+?Arithmetic
+```
 
+Weitere REchnungen
+
+```{r}
+12^2 + 1.5*10
+
+sin(pi/2) + sqrt(abs(-4))
+
+round(pi, 3)
+```
 
